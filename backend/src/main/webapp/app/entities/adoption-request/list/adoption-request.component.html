@@ -1,0 +1,131 @@
+<div>
+  <h2 id="page-heading" data-cy="AdoptionRequestHeading">
+    <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.home.title">Adoption Requests</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-adoption-request"
+        [routerLink]="['/adoption-request/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.home.createLabel">Create a new Adoption Request</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (adoptionRequests().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.home.notFound">No Adoption Requests found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="reasonOfAdoption">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.reasonOfAdoption">Reason Of Adoption</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="adoptionStatus">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.adoptionStatus">Adoption Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="phoneNumber">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.phoneNumber">Phone Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="animal.id">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.animal">Animal</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (adoptionRequest of adoptionRequests(); track trackId(adoptionRequest)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/adoption-request', adoptionRequest.id, 'view']">{{ adoptionRequest.id }}</a>
+              </td>
+              <td>{{ adoptionRequest.reasonOfAdoption }}</td>
+              <td [jhiTranslate]="'jhipsterFinalTestAppApp.RequestStatus.' + (adoptionRequest.adoptionStatus ?? 'null')">
+                {{ { null: '', PENDING: 'PENDING', ACCEPTED: 'ACCEPTED', REJECTED: 'REJECTED' }[adoptionRequest.adoptionStatus ?? 'null'] }}
+              </td>
+              <td>{{ adoptionRequest.email }}</td>
+              <td>{{ adoptionRequest.phoneNumber }}</td>
+              <td>
+                @if (adoptionRequest.animal) {
+                  <div>
+                    <a [routerLink]="['/animal', adoptionRequest.animal.id, 'view']">{{ adoptionRequest.animal.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/adoption-request', adoptionRequest.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/adoption-request', adoptionRequest.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(adoptionRequest)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

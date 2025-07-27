@@ -1,0 +1,47 @@
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.modal-footer button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.modal-footer button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}

@@ -1,0 +1,157 @@
+<div class="container mt-4" style="background-color: inherit; ">
+  <!-- Header and Add Button -->
+  <div class="d-flex align-items-center mb-3">
+    <h2 class="me-3" style="color: rgb(109, 109, 109);">Nos Animaux</h2>
+    <button *ngIf="currentRole === 'admin'" (click)="showModal()" class="btn btn-secondary" style="background-color: rgba(51, 51, 51, 0.349);">
+     <i class="bi bi-plus-circle"></i>  Ajouter un animal 
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <app-modal *ngIf="isModalVisible" (success)="getAnimals(); showModal(); AnimalAddedAlert();" 
+  ></app-modal>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <!-- <div class="spinner-border text-primary" role="status"></div> -->
+  </div>
+
+  <!-- Animals Grid -->
+  <div class="row g-4">
+    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let animal of animals" style="background-color: inherit;
+    mix-blend-mode: multiply;
+    color: white;">
+      
+      <!-- USER VIEW -->
+      <ng-container *ngIf="currentRole === 'user'">
+        <div class="card h-100">
+          <img [src]="animal.imageUrl" class="card-img-top" alt="...">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">{{ animal.name }}</h5>
+            </div>
+            <div class="card-text"><strong>Identifiant:</strong> {{ animal.id }}</div>
+            <div class="card-text"><strong>Race:</strong> {{ animal.race }}</div>
+            <div class="card-text"><strong>Sexe:</strong> {{ animal.gender }}</div>
+            <div class="card-text"><strong>Age (jours):</strong> {{ animal.age }}</div>
+            <div class="card-text"><strong>Description:</strong> {{ animal.description }}</div>
+            <div><strong>Status:</strong>
+              <span class="badge bg-{{ animal.adoptionStatus === 'AVAILABLE' ? 'success' : 'secondary' }}">
+                {{ animal.adoptionStatus }}
+              </span>
+            </div>
+          </div>
+          <div class="text-center" *ngIf="animal.adoptionStatus === 'AVAILABLE'">
+            <button class="btn btn-secondary btn-sm" style="margin-bottom: 5%; "
+              (click)="SetisAdoptionRequestPostVisible(); SetAnimalToRequestAdoption(animal);" >
+              <i class="bi bi-bookmark-heart-fill"></i> Demander
+            </button>
+ </div>
+             <div class="text-center" *ngIf="animal.adoptionStatus !== 'AVAILABLE'">
+            <button class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5%;" disabled>
+              <i class="bi bi-bookmark-heart-fill"></i> Demander
+            </button>
+          </div>
+       </div>
+      </ng-container>
+
+      <!-- ADMIN VIEW - NO EDIT -->
+      <ng-container *ngIf="currentRole === 'admin' && AnimalIdToEdit !== animal.id">
+        <div class="card h-100">
+<img [src]="animal.imageUrl" class="card-img-top" alt="" >
+          <div class="card-body">
+            
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">{{ animal.name }}</h5>
+              <div>
+                <button type="button" class="btn btn-outline-secondary" (click)="setIsEdit(); setAnimalIdToEdit(animal.id); SetAnimalToEdit(animal);">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button type="button" class="btn btn-outline-secondary"
+                  (click)="showDeleteModal(); RetrieveAnimalToDeleteId(animal.id);">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-text"><strong>Identifiant:</strong> {{ animal.id }}</div>
+            <div class="card-text"><strong>Race:</strong> {{ animal.race }}</div>
+            <div class="card-text"><strong>Sexe:</strong> {{ animal.gender }}</div>
+            <div class="card-text"><strong>Age (jours):</strong> {{ animal.age }}</div>
+            <div class="card-text"><strong>Description:</strong> {{ animal.description }}</div>
+            <div><strong>Status:</strong>
+              <span class="badge badge-pill bg-{{ animal.adoptionStatus === 'AVAILABLE' ? 'success' : 'secondary' }}">
+                {{ animal.adoptionStatus }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- ADMIN VIEW - EDIT MODE -->
+      <ng-container *ngIf="currentRole === 'admin' && AnimalIdToEdit === animal.id">
+        <div class="card h-100">
+          <img [src]="animal.imageUrl" class="card-img-top" alt="...">
+          <div class="card-body">
+            <form [formGroup]="animalForm">
+              <div class="d-flex justify-content-between">
+                <input formControlName="name" class="form-control me-2" required />
+                <div>
+                  <button type="button" class="btn btn-outline-secondary"
+                    (click)="EditAnimal(); setAnimalIdToEdit(0);">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" (click)="setAnimalIdToEdit(0)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group mt-2">
+                <input formControlName="race" class="form-control" required />
+              </div>
+              <div class="form-group mt-2">
+                <input type="number" formControlName="age" class="form-control" required />
+              </div>
+              <div class="form-group mt-2">
+                <select formControlName="gender" class="form-control" required>
+                  <option value="M">Male</option>
+                  <option value="F">Femelle</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <textarea formControlName="description" class="form-control" required></textarea>
+              </div>
+              <div class="form-group mt-2">
+                <select formControlName="adoptionStatus" class="form-control" required>
+                  <option value="AVAILABLE">Disponnible</option>
+                  <option value="ADOPTED">Adopté</option>
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- No animals message -->
+  <div class="text-center mt-5">
+    <!-- <p>No animals found.</p> -->
+  </div>
+</div>
+
+<normal-delete-modal
+*ngIf="isDeleteModalVisible"
+(confirmDelete)="OnConfirmDeleteAnimal()"
+(EmitCancel)="hideDeleteModal()"
+></normal-delete-modal>
+
+
+
+<app-adoption-request-form-modal *ngIf="isAdoptionRequestPostVisible" 
+[animalToRequest]="AnimalToRequestAdoption"
+(EmitCancel)=" SetisAdoptionRequestPostVisible()"
+(success)="AdoptionRequestAddedAlert()"
+></app-adoption-request-form-modal>
+
+

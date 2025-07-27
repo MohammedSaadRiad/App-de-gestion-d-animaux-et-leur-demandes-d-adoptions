@@ -1,0 +1,23 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Confirmation de supression</h4>
+        <button type="button" class="close" (click)="onCancel()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Etes-vous sur de vouloir supprimer? </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onDelete()">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{
+  "jhipsterFinalTestAppApp": {
+    "AdoptionStatus": {
+      "null": "",
+      "AVAILABLE": "AVAILABLE",
+      "ADOPTED": "ADOPTED"
+    }
+  }
+}

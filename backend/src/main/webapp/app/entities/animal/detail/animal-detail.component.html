@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (animal(); as animalRef) {
+      <div>
+        <h2 data-cy="animalDetailsHeading"><span jhiTranslate="jhipsterFinalTestAppApp.animal.detail.title">Animal</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ animalRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.name">Name</span></dt>
+          <dd>
+            <span>{{ animalRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.race">Race</span></dt>
+          <dd>
+            <span>{{ animalRef.race }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.age">Age</span></dt>
+          <dd>
+            <span>{{ animalRef.age }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.gender">Gender</span></dt>
+          <dd>
+            <span>{{ animalRef.gender }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.description">Description</span></dt>
+          <dd>
+            <span>{{ animalRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.adoptionStatus">Adoption Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'jhipsterFinalTestAppApp.AdoptionStatus.' + (animalRef.adoptionStatus ?? 'null')">{{
+              { null: '', AVAILABLE: 'AVAILABLE', ADOPTED: 'ADOPTED' }[animalRef.adoptionStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.animal.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ animalRef.imageUrl }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/animal', animalRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

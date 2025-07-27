@@ -1,0 +1,140 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-animal-heading" data-cy="AnimalCreateUpdateHeading" jhiTranslate="jhipsterFinalTestAppApp.animal.home.createOrEditLabel">
+        Create or edit a Animal
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jhipsterFinalTestAppApp.animal.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="jhipsterFinalTestAppApp.animal.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        @let raceRef = editForm.get('race')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_race" jhiTranslate="jhipsterFinalTestAppApp.animal.race">Race</label>
+          <input type="text" class="form-control" name="race" id="field_race" data-cy="race" formControlName="race" />
+          @if (raceRef.invalid && (raceRef.dirty || raceRef.touched)) {
+            <div>
+              @if (editForm.get('race')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let ageRef = editForm.get('age')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_age" jhiTranslate="jhipsterFinalTestAppApp.animal.age">Age</label>
+          <input type="number" class="form-control" name="age" id="field_age" data-cy="age" formControlName="age" />
+          @if (ageRef.invalid && (ageRef.dirty || ageRef.touched)) {
+            <div>
+              @if (editForm.get('age')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('age')?.errors?.number" jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let genderRef = editForm.get('gender')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_gender" jhiTranslate="jhipsterFinalTestAppApp.animal.gender">Gender</label>
+          <input type="text" class="form-control" name="gender" id="field_gender" data-cy="gender" formControlName="gender" />
+          @if (genderRef.invalid && (genderRef.dirty || genderRef.touched)) {
+            <div>
+              @if (editForm.get('gender')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('gender')?.errors?.minlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: '1' }"
+                  >This field is required to be at least 1 characters.</small
+                >
+              }
+              @if (editForm.get('gender')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1' }"
+                  >This field cannot be longer than 1 characters.</small
+                >
+              }
+              @if (editForm.get('gender')?.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Gender' }"
+                  >This field should follow pattern for Gender.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description" jhiTranslate="jhipsterFinalTestAppApp.animal.description">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        @let adoptionStatusRef = editForm.get('adoptionStatus')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_adoptionStatus" jhiTranslate="jhipsterFinalTestAppApp.animal.adoptionStatus"
+            >Adoption Status</label
+          >
+          <select
+            class="form-control"
+            name="adoptionStatus"
+            formControlName="adoptionStatus"
+            id="field_adoptionStatus"
+            data-cy="adoptionStatus"
+          >
+            <option [ngValue]="null">{{ 'jhipsterFinalTestAppApp.AdoptionStatus.null' | translate }}</option>
+            @for (adoptionStatus of adoptionStatusValues; track $index) {
+              <option [value]="adoptionStatus">{{ 'jhipsterFinalTestAppApp.AdoptionStatus.' + adoptionStatus | translate }}</option>
+            }
+          </select>
+          @if (adoptionStatusRef.invalid && (adoptionStatusRef.dirty || adoptionStatusRef.touched)) {
+            <div>
+              @if (editForm.get('adoptionStatus')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_imageUrl" jhiTranslate="jhipsterFinalTestAppApp.animal.imageUrl">Image Url</label>
+          <textarea class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl"></textarea>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

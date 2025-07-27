@@ -1,0 +1,5 @@
+.bg-image {
+  width: 100%;
+
+  background-image: url('../../public/bg2.png');
+}

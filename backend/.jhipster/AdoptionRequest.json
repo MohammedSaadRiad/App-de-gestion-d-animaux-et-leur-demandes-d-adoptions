@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20250519191341"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "reasonOfAdoption",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "adoptionStatus",
+      "fieldType": "RequestStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PENDING,ACCEPTED,REJECTED"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "AdoptionRequest",
+  "relationships": [
+    {
+      "otherEntityName": "animal",
+      "otherEntityRelationshipName": "adoptionRequestion",
+      "relationshipName": "animal",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

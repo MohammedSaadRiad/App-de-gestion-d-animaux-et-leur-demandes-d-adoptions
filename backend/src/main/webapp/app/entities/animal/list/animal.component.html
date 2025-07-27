@@ -1,0 +1,134 @@
+<div>
+  <h2 id="page-heading" data-cy="AnimalHeading">
+    <span jhiTranslate="jhipsterFinalTestAppApp.animal.home.title">Animals</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="jhipsterFinalTestAppApp.animal.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-animal"
+        [routerLink]="['/animal/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jhipsterFinalTestAppApp.animal.home.createLabel">Create a new Animal</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (animals().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="jhipsterFinalTestAppApp.animal.home.notFound">No Animals found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="race">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.race">Race</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="age">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.age">Age</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gender">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.gender">Gender</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="adoptionStatus">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.adoptionStatus">Adoption Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imageUrl">
+              <div class="d-flex">
+                <span jhiTranslate="jhipsterFinalTestAppApp.animal.imageUrl">Image Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (animal of animals(); track trackId(animal)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/animal', animal.id, 'view']">{{ animal.id }}</a>
+              </td>
+              <td>{{ animal.name }}</td>
+              <td>{{ animal.race }}</td>
+              <td>{{ animal.age }}</td>
+              <td>{{ animal.gender }}</td>
+              <td>{{ animal.description }}</td>
+              <td [jhiTranslate]="'jhipsterFinalTestAppApp.AdoptionStatus.' + (animal.adoptionStatus ?? 'null')">
+                {{ { null: '', AVAILABLE: 'AVAILABLE', ADOPTED: 'ADOPTED' }[animal.adoptionStatus ?? 'null'] }}
+              </td>
+              <td>{{ animal.imageUrl }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/animal', animal.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/animal', animal.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(animal)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

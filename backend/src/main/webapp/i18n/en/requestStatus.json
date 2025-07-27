@@ -1,0 +1,10 @@
+{
+  "jhipsterFinalTestAppApp": {
+    "RequestStatus": {
+      "null": "",
+      "PENDING": "PENDING",
+      "ACCEPTED": "ACCEPTED",
+      "REJECTED": "REJECTED"
+    }
+  }
+}

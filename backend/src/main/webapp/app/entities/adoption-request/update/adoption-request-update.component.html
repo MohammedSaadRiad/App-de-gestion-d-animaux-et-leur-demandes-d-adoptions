@@ -1,0 +1,139 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-adoption-request-heading"
+        data-cy="AdoptionRequestCreateUpdateHeading"
+        jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.home.createOrEditLabel"
+      >
+        Create or edit a Adoption Request
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let reasonOfAdoptionRef = editForm.get('reasonOfAdoption')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_reasonOfAdoption" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.reasonOfAdoption"
+            >Reason Of Adoption</label
+          >
+          <textarea
+            class="form-control"
+            name="reasonOfAdoption"
+            id="field_reasonOfAdoption"
+            data-cy="reasonOfAdoption"
+            formControlName="reasonOfAdoption"
+          ></textarea>
+          @if (reasonOfAdoptionRef.invalid && (reasonOfAdoptionRef.dirty || reasonOfAdoptionRef.touched)) {
+            <div>
+              @if (editForm.get('reasonOfAdoption')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let adoptionStatusRef = editForm.get('adoptionStatus')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_adoptionStatus" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.adoptionStatus"
+            >Adoption Status</label
+          >
+          <select
+            class="form-control"
+            name="adoptionStatus"
+            formControlName="adoptionStatus"
+            id="field_adoptionStatus"
+            data-cy="adoptionStatus"
+          >
+            <option [ngValue]="null">{{ 'jhipsterFinalTestAppApp.RequestStatus.null' | translate }}</option>
+            @for (requestStatus of requestStatusValues; track $index) {
+              <option [value]="requestStatus">{{ 'jhipsterFinalTestAppApp.RequestStatus.' + requestStatus | translate }}</option>
+            }
+          </select>
+          @if (adoptionStatusRef.invalid && (adoptionStatusRef.dirty || adoptionStatusRef.touched)) {
+            <div>
+              @if (editForm.get('adoptionStatus')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let emailRef = editForm.get('email')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let phoneNumberRef = editForm.get('phoneNumber')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_phoneNumber" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.phoneNumber"
+            >Phone Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="field_phoneNumber"
+            data-cy="phoneNumber"
+            formControlName="phoneNumber"
+          />
+          @if (phoneNumberRef.invalid && (phoneNumberRef.dirty || phoneNumberRef.touched)) {
+            <div>
+              @if (editForm.get('phoneNumber')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_animal" jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.animal">Animal</label>
+          <select
+            class="form-control"
+            id="field_animal"
+            data-cy="animal"
+            name="animal"
+            formControlName="animal"
+            [compareWith]="compareAnimal"
+          >
+            <option [ngValue]="null"></option>
+            @for (animalOption of animalsSharedCollection; track $index) {
+              <option [ngValue]="animalOption">{{ animalOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

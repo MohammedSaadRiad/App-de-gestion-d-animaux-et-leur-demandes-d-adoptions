@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (adoptionRequest(); as adoptionRequestRef) {
+      <div>
+        <h2 data-cy="adoptionRequestDetailsHeading">
+          <span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.detail.title">Adoption Request</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ adoptionRequestRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.reasonOfAdoption">Reason Of Adoption</span></dt>
+          <dd>
+            <span>{{ adoptionRequestRef.reasonOfAdoption }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.adoptionStatus">Adoption Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'jhipsterFinalTestAppApp.RequestStatus.' + (adoptionRequestRef.adoptionStatus ?? 'null')">{{
+              { null: '', PENDING: 'PENDING', ACCEPTED: 'ACCEPTED', REJECTED: 'REJECTED' }[adoptionRequestRef.adoptionStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.email">Email</span></dt>
+          <dd>
+            <span>{{ adoptionRequestRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.phoneNumber">Phone Number</span></dt>
+          <dd>
+            <span>{{ adoptionRequestRef.phoneNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="jhipsterFinalTestAppApp.adoptionRequest.animal">Animal</span></dt>
+          <dd>
+            @if (adoptionRequest()!.animal) {
+              <div>
+                <a [routerLink]="['/animal', adoptionRequest()!.animal?.id, 'view']">{{ adoptionRequestRef.animal?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/adoption-request', adoptionRequestRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

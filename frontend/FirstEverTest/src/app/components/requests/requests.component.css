@@ -1,0 +1,87 @@
+.requests-container {
+  margin: 20px;
+  padding: 20px;
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .error {
+    color: #f44336;
+    padding: 10px;
+    background-color: #ffebee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  .adoption-request-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    .card-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      
+      .request-details {
+        .details-section {
+          margin-bottom: 20px;
+          
+          label {
+            font-weight: 400;
+            margin-bottom: 5px;
+            display: block;
+          }
+          
+          p {
+            margin: 0;
+          }
+        }
+        
+        .status-button {
+         
+          
+          button {
+            width: 120px;
+            height: 35px;
+            border-radius: 18px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+        }
+      }
+      
+      .animal-details {
+        .animal-card {
+          background: #f5f5f5;
+          padding: 20px;
+          border-radius: 8px;
+          
+          .animal-info {
+            margin-top: 15px;
+            
+            .description {
+              margin-top: 10px;
+              
+              p:first-child {
+                font-weight: bold;
+                margin-bottom: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

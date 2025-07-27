@@ -1,0 +1,182 @@
+<div class="requests-container">
+  <!-- Loading State -->
+ <!--  <div *ngIf="isLoading" class="loading">
+    <mat-progress-spinner diameter="24"></mat-progress-spinner>
+    Loading adoption requests...
+  </div> -->
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Adoption Request Cards -->
+  <div class="adoption-request-card" *ngFor="let request of requests">
+    <div class="card-container">
+      <!-- Left Section - Request Details -->
+      <div class="request-details"> <!-- REQUEST DETAILS START -->
+        <form [formGroup]="RequestForm">
+        <h3>Demande d'adoption #{{request.id}}</h3>
+        
+        <div class="details-section">
+          <label><strong>Raison:</strong></label>
+          @if(!(request.id === AdoptionRequestToEdit?.id)){
+          <p >{{request.reasonOfAdoption}}</p>}
+          @if(request.id === AdoptionRequestToEdit?.id){
+          <div>
+            <textarea placeholder="Ystahel fin y3ich" formControlName="reasonOfAdoption" style="width: 100%; "></textarea>
+        </div>}
+
+        </div>
+        
+        <div class="details-section">
+          <label ><strong>Informations De Contact:</strong></label>
+          <p><strong>Email: </strong>@if(!(request.id === AdoptionRequestToEdit?.id)){{{request.email}}}
+            @else if(request.id === AdoptionRequestToEdit?.id){
+            <input type="email" formControlName="email" >}
+        </p>
+          <p><strong>Telephone:</strong> @if(!(request.id === AdoptionRequestToEdit?.id)){{{request.phoneNumber}}}
+           @else if(request.id === AdoptionRequestToEdit?.id){
+            <input type="tel" formControlName="phoneNumber" >
+           }
+          </p>
+        </div>
+        <div style="display: flex; align-items: center;">
+        <div class="status-button">
+          <button [class.btn-success]="request.adoptionStatus === 'ACCEPTED'"
+                  [class.btn-warning]="request.adoptionStatus === 'PENDING'"
+                  [class.btn-danger]="request.adoptionStatus === 'REJECTED'"
+                  class="btn">
+            {{request.adoptionStatus}}
+          </button>
+         
+        
+      </div>
+      <div style="align-items: center; margin: 1%;" >
+       
+            <button type="button" class="btn btn-secondary" style="" *ngIf="currentRole === 'admin' && !(AdoptionRequestToUpdateStatusId === request.id)" 
+            (click)=" SetAdoptionRequestToUpdateStatusId(request.id); SetIsAdminEditTrue();">
+                    <i class="bi bi-pen-fill"></i>
+                  </button>
+
+            <div *ngIf="currentRole === 'admin' && AdoptionRequestToUpdateStatusId === request.id">
+             
+            <button type="button" class="btn btn-secondary me-1" style="" 
+            (click) = "SetAdoptionRequestToUpdateStatus(request); ">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" 
+            (click)="SetAdoptionRequestToUpdateStatusId(0); SetUpdatedRequestStatusToPatch('');" style="">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+             </div>
+      
+      </div>
+      </div>
+        <div *ngIf="currentRole === 'user'"><!-- USER EDIT & DELETE BUTTONS START-->
+        <div style="margin-top: 3%;" *ngIf="!(request.id === AdoptionRequestToEdit?.id)" >  <!-- INITIAL EDIT & DELETE BUTTONS start-->
+@if(request.adoptionStatus === 'PENDING'){
+<button type="button" class="btn btn-secondary" style="margin: 2px;" (click)=" SetIsUserEditTrue(); SetAdoptionRequestToEdit(request)">
+  
+  <i class="bi bi-pen-fill"></i>
+  
+</button>
+
+<button type="button" class="btn btn-secondary" (click)="setIsDeleteModalTrue(); SetAdoptionRequestIdToDelete(request.id);">
+  
+  <i class="bi bi-trash3-fill"></i>
+   
+</button>}@else if(request.adoptionStatus === 'ACCEPTED' || request.adoptionStatus === 'REJECTED'){
+  <div style="display: flex; align-items: center;">
+<div>
+<button type="button" class="btn btn-secondary" style="margin: 2px;" disabled>
+  
+  <i class="bi bi-pen-fill"></i>
+  
+</button>
+
+<button type="button" class="btn btn-secondary" disabled>
+  
+  <i class="bi bi-trash3-fill"></i>
+   
+</button> </div> <div style="color: rgba(255, 0, 0, 0.521); align-items: center;"><p style="font-size: small;">!Modification ou supression n'est pas possible pour une demande deja acceptée ou refusée.</p></div> 
+</div> }
+
+
+</div>  <!-- END OF INITIAL EDIT & DELETE BUTTONS-->
+
+@if(request.id === AdoptionRequestToEdit?.id){
+<div style="margin-top: 3%;" *ngIf="(IsUserEdit)"> <!--START OF SECONDARY CONFIRM EDIT & CANCEL EDIT BUTTONS-->
+
+<button type="button" class="btn btn-secondary me-1" (click)=" OnSubmitPatchAdoptionRequest();">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="SetIsUserEditFalse()">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+  
+  
+   
+
+</div>} <!-- SECONDARY CONFIRM EDIT & CANCEL EDIT BUTTONS end-->
+
+
+
+
+
+
+</div><!-- USER EDIT & DELETE BUTTONS END -->
+
+<div  *ngIf="request.id === AdoptionRequestToUpdateStatusId">
+   <strong style="margin: 1px;">Decision:</strong>
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-top: 0%;"><!-- ADMIN BUTTONS START -->
+@if(request.adoptionStatus === 'PENDING'){
+  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" (click)="SetUpdatedRequestStatusToPatch('ACCEPTED')">
+  <label class="btn btn-outline-success" for="btnradio1">Accepter</label>
+
+  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="SetUpdatedRequestStatusToPatch('REJECTED')">
+  <label class="btn btn-outline-danger" for="btnradio2">Rejeter</label>
+}@else if(request.adoptionStatus === 'ACCEPTED' || request.adoptionStatus === 'REJECTED'){
+ <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="SetUpdatedRequestStatusToPatch('PENDING')">
+  <label class="btn btn-outline-warning" for="btnradio2">Annuler la decision</label>
+
+}
+</div>
+</div> <!-- ADMIN BUTTONS END -->
+</form>
+
+      </div> <!-- REQUEST DETAILS END -->
+
+      <!-- Right Section - Animal Details -->
+      <div >
+        <h3>Animal Choisit:</h3>
+        
+        <div >
+          <div class="card h-100" style="width: 24rem;">
+          <img [src]="request.animal?.imageUrl" class="card-img-top" alt="">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">{{ request.animal?.name }}</h5>
+            </div>
+            <div class="card-text"><strong>Identifiant:</strong> {{ request.animal?.id }}</div>
+            <div class="card-text"><strong>Race:</strong> {{ request.animal?.race }}</div>
+            <div class="card-text"><strong>Sexe:</strong> {{ request.animal?.gender }}</div>
+            <div class="card-text"><strong>Age (jours):</strong> {{ request.animal?.age }}</div>
+            <div class="card-text"><strong>Description:</strong> {{ request.animal?.description }}</div>
+            <div><strong>Status:</strong>
+              <span class="badge bg-{{ request.animal?.adoptionStatus === 'AVAILABLE' ? 'success' : 'secondary' }}">
+                {{ request.animal?.adoptionStatus }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<normal-delete-modal *ngIf="isDeleteModal" 
+(confirmDelete)="OnConfirmDeleteAdoptionRequest()" 
+(EmitCancel)="setIsDeleteModalFalse()" ></normal-delete-modal>
+

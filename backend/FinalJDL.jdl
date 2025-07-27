@@ -1,0 +1,33 @@
+entity Animal {
+  name String,
+  race String required,
+  age Integer required,
+  gender String required minlength(1) maxlength(1) pattern(/[MF]/),
+  description TextBlob,
+  adoptionStatus AdoptionStatus required,
+  ImageUrl TextBlob
+} 
+
+enum AdoptionStatus {
+  AVAILABLE,
+  ADOPTED
+}
+
+entity AdoptionRequest {
+  reasonOfAdoption TextBlob required,
+  adoptionStatus RequestStatus required,
+  email String required,
+  phoneNumber String required,
+} 
+
+enum RequestStatus {
+  PENDING,
+  ACCEPTED,
+  REJECTED
+}
+
+relationship ManyToOne {
+  AdoptionRequest{animal} to Animal{adoptionRequestion}
+}
+
+service all with serviceImpl

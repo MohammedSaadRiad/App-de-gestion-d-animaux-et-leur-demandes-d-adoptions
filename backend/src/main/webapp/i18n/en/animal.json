@@ -1,0 +1,31 @@
+{
+  "jhipsterFinalTestAppApp": {
+    "animal": {
+      "home": {
+        "title": "Animals",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Animal",
+        "createOrEditLabel": "Create or edit a Animal",
+        "notFound": "No Animals found"
+      },
+      "created": "A new Animal is created with identifier {{ param }}",
+      "updated": "A Animal is updated with identifier {{ param }}",
+      "deleted": "A Animal is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Animal {{ id }}?"
+      },
+      "detail": {
+        "title": "Animal"
+      },
+      "id": "ID",
+      "name": "Name",
+      "race": "Race",
+      "age": "Age",
+      "gender": "Gender",
+      "description": "Description",
+      "adoptionStatus": "Adoption Status",
+      "imageUrl": "Image Url",
+      "adoptionRequestion": "Adoption Requestion"
+    }
+  }
+}

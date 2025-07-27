@@ -1,0 +1,20 @@
+.card-text{
+    margin: 4% 0;
+}
+
+
+
+
+.mybutton {
+            width: 120px;
+            height: 35px;
+            border-radius: 18px;
+            color: rgb(63, 58, 58);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            
+            &:hover {
+              transform: scale(1.05);
+            }
+          }

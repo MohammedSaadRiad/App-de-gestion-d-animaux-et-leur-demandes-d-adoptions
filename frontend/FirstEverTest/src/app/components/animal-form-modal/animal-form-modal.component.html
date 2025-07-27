@@ -1,0 +1,57 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <form [formGroup]="animalForm" (ngSubmit)="onSubmit()">
+       <!-- name -->
+      <div class="form-group">
+        <label>Nom:</label>
+        <input formControlName="name" required>
+      
+      </div>
+       <!-- race -->
+      <div class="form-group">
+        <label>Race:</label>
+        <input  formControlName="race" required>
+      
+      </div>
+      <!-- Age -->
+      <div class="form-group">
+        <label>Age:</label>
+        <input type="number" formControlName="age" required>
+      
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label>Sexe:</label>
+        <select formControlName="gender" required>
+          <option value="M">Male</option>
+          <option value="F">Femelle</option>
+        </select>
+      
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label>Description:</label>
+        <textarea formControlName="description" required></textarea>
+    
+      </div>
+
+      <!-- Adoption Status -->
+      <div class="form-group">
+        <label>Etat:</label>
+        <select formControlName="adoptionStatus" required>
+          <option value="AVAILABLE">Disponnible</option>
+          <option value="ADOPTED">Adopté</option>
+        </select>
+    
+      </div>
+
+      <!-- Buttons -->
+      <div class="modal-footer">
+        <button type="submit" >Envoyer</button>
+        <button type="button" (click)="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

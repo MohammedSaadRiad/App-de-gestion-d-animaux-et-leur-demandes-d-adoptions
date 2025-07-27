@@ -1,0 +1,91 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-content">
+      <div class="modal-header" style="display: flex; justify-content: space-between;">
+        <div ><h4>Demande d'adoption:</h4></div>
+          <div>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">
+          X
+        </button></div>
+         
+      </div>
+      
+      <div class="modal-body">
+        <!-- ANIMAL TO REQUEST -->
+         <div class="whateachcardisfor">Animal Choisit:</div>
+        <div class="card h-100">
+      
+        <div class="card-body">
+          <div style="display: flex; justify-content: space-between;">
+          <h5 class="card-title" style="display: inline-flex;">
+            
+             {{ animalToRequest?.name }}
+
+
+            </h5>
+            </div>
+           <div class="card-text"><a style="font-weight: 600;">Identifiant:</a> {{ animalToRequest?.id }}</div>
+           <div class="card-text"><a style="font-weight: 600;">Race:</a> {{ animalToRequest?.race }}</div>
+           <div class="card-text"><a style="font-weight: 600;">Sexe:</a> {{ animalToRequest?.gender }}</div>
+          <div class="card-text"><a style="font-weight: 600;">Age (jours):</a> {{ animalToRequest?.age }}</div>
+           
+
+   
+
+  
+          <a style="font-weight: 600;">Description:</a><p class="card-text">{{ animalToRequest?.description }}</p>
+       
+        </div>
+      </div> <!--  END OF THE  1ST CARD -->
+      <!--  SECOND CARD -->
+        <div class="whateachcardisfor">Details de la demande d'adoption:</div>
+      <div class="card h-100">
+      
+        <div class="card-body" style="display: contents;">
+        
+        <form [formGroup]="RequestForm">
+
+
+          
+             <!-- Reason of adoption -->
+ <div class="form-group" >
+  <div>
+            <label class="infolabel">Votre raison d'adoption:</label></div>
+            <div>
+             <textarea placeholder="Il merite a vivre" formControlName="reasonOfAdoption" style="width: 100%; "></textarea></div>
+             </div>
+      <!-- email -->
+      <div class="form-group">
+       <div><label class="infolabel">Adresse Email:</label></div>
+        <div><input type="email" formControlName="email" placeholder="nom@nexoverse.ma" style="width: 100%;" required></div>
+      
+      </div>
+
+      <!-- phoneNumber -->
+      <div class="form-group">
+      <div><label class="infolabel">Telephone:</label></div>
+       <div> <input type="tel" formControlName="phoneNumber" style="width: 100%;" placeholder="06500400" required></div>
+      
+      </div>
+
+     
+      
+
+   
+    </form>
+        </div>
+   
+      </div>
+       <!--  END SECOND CARD -->
+        <!--  END ANIMAL TO REQUEST -->
+
+      <div class="modal-footer" style="justify-content: center;">
+        <button type="button" class="btn btn-secondary" style="margin-top: 2%;"
+         (click)="onSubmit()" >
+          Demander l'adoption
+        </button>
+      
+      </div>
+    </div>
+  </div>
+</div>
